@@ -21,11 +21,9 @@ var NV;
             const newIframe = document.createElement('iframe');
             newIframe.src = embedUrl;
             newIframe.id = 'nicovideoPlayer' + (this.playerId > 1 ? this.playerId : '');
-            newIframe.frameBorder = "0";
             newIframe.width = `${width}px`;
             newIframe.height = `${height}px`;
-            newIframe.allowFullscreen = true;
-            newIframe.allow = "autoplay; encrypted-media";
+            newIframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
             (_a = document.getElementById(targetElemId)) === null || _a === void 0 ? void 0 : _a.appendChild(newIframe);
             // iframeがロードされたときに処理を実行する
             newIframe.onload = () => {
@@ -34,7 +32,7 @@ var NV;
             };
         }
         onMessage(event) {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
             // メッセージの送信元がニコ動以外の場合破棄
             if (event.origin !== 'https://embed.nicovideo.jp') {
                 return;
@@ -64,6 +62,10 @@ var NV;
             }
             else if (event.data.eventName == 'exitProgrammaticFullScreen') {
                 (_p = (_o = this.events).onExitProgrammaticFullScreen) === null || _p === void 0 ? void 0 : _p.call(_o, event.data.data);
+            }
+            else {
+                console.error('[NV-Iframe] 不明なイベントが発生しました');
+                (_r = (_q = this.events).onError) === null || _r === void 0 ? void 0 : _r.call(_q, event.data);
             }
         }
         _postMessage(eventName, data) {
@@ -117,7 +119,8 @@ var NV;
     let SeekStatus;
     (function (SeekStatus) {
         SeekStatus[SeekStatus["NOT_SEEK"] = 0] = "NOT_SEEK";
-        SeekStatus[SeekStatus["SEEKING"] = 1] = "SEEKING";
+        SeekStatus[SeekStatus["SEEK_DRAGGING"] = 1] = "SEEK_DRAGGING";
+        SeekStatus[SeekStatus["SEEKING"] = 2] = "SEEKING";
     })(SeekStatus = NV.SeekStatus || (NV.SeekStatus = {}));
     let SourceConnectorType;
     (function (SourceConnectorType) {

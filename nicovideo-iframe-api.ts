@@ -23,11 +23,9 @@ namespace NV {
             const newIframe = document.createElement('iframe')
             newIframe.src = embedUrl;
             newIframe.id = 'nicovideoPlayer' + (this.playerId > 1 ? this.playerId : '');
-            newIframe.frameBorder = "0";
             newIframe.width = `${width}px`;
             newIframe.height = `${height}px`;
-            newIframe.allowFullscreen = true;
-            newIframe.allow = "autoplay; encrypted-media"
+            newIframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
             document.getElementById(targetElemId)?.appendChild(newIframe);
             // iframeがロードされたときに処理を実行する
             newIframe.onload = () => {
@@ -60,6 +58,9 @@ namespace NV {
                 this.events.onEnterProgrammaticFullScreen?.(event.data.data);
             } else if (event.data.eventName == 'exitProgrammaticFullScreen') {
                 this.events.onExitProgrammaticFullScreen?.(event.data.data);
+            } else {
+                console.error('[NV-Iframe] 不明なイベントが発生しました');
+                this.events.onError?.(event.data);
             }
 
         }
@@ -129,6 +130,7 @@ namespace NV {
             onSeekStatusChange?: Function,
             onEnterProgrammaticFullScreen?: Function,
             onExitProgrammaticFullScreen?: Function,
+            onError?: Function
         }
     }
 
@@ -141,7 +143,8 @@ namespace NV {
 
     export enum SeekStatus {
         NOT_SEEK = 0,
-        SEEKING = 1
+        SEEK_DRAGGING = 1,
+        SEEKING = 2
     }
 
     export enum SourceConnectorType {
