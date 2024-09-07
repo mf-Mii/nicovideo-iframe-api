@@ -19,7 +19,6 @@ namespace NV {
                 console.error('[NV-Iframe] 指定されたIDの要素が存在しません');
                 return;
             }
-            console.log('createVideoIframe called');
             const embedUrl = `https://embed.nicovideo.jp/watch/${videoId}?w=${width}px&h=${height}&jsapi=1&playerId=${this.playerId}`
             const newIframe = document.createElement('iframe')
             newIframe.src = embedUrl;
@@ -32,7 +31,6 @@ namespace NV {
             document.getElementById(targetElemId)?.appendChild(newIframe);
             // iframeがロードされたときに処理を実行する
             newIframe.onload = () => {
-                console.log('Iframe loaded');
                 this.events.onReady?.();
             };
 
@@ -68,7 +66,6 @@ namespace NV {
         }
 
         private _postMessage(eventName: string, data?: object) {
-            // console.log(`postMessage called with eventName: ${eventName}`);
             const iframe = document.getElementById('nicovideoPlayer' + (this.playerId > 1 ? this.playerId.toString() : '')) as HTMLIFrameElement;
             if (!iframe) {
                 console.error('[NV-Iframe] プレイヤーが存在しません');
@@ -82,12 +79,8 @@ namespace NV {
             if (!!data) {
                 messageData = { ...messageData, data: data };
             }
-            console.log('_postMessage', messageData);
-            console.log(iframe.contentWindow?.postMessage)
             if (iframe.contentWindow) {
-                //iframe.contentWindow.postMessage(messageData, 'https://embed.nicovideo.jp');
-                iframe.contentWindow.postMessage(messageData, '*');
-                console.log('postMessage called');
+                iframe.contentWindow.postMessage(messageData, 'https://embed.nicovideo.jp');
             } else {
                 console.error('[NV-Iframe] iframe.contentWindowが存在しません');
             }
@@ -98,10 +91,7 @@ namespace NV {
         }
 
         public play() {
-            // console.log('play function called');
-            // console.log(this._postMessage)
             this._postMessage('play');
-            // console.log('_postMessage called in play');
         }
 
 
@@ -123,9 +113,6 @@ namespace NV {
     }
 
     namespace PlayerOption {
-        /**
-         *
-         */
         export interface Option {
             height: number,
             width: number,
