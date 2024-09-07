@@ -44,25 +44,34 @@ var NV;
             }
             // メッセージのイベント名によって処理を分岐
             if (event.data.eventName == 'loadComplete') {
-                (_b = (_a = this.events).onLoadComplete) === null || _b === void 0 ? void 0 : _b.call(_a, event.data.data);
+                const data = event.data.data;
+                (_b = (_a = this.events).onLoadComplete) === null || _b === void 0 ? void 0 : _b.call(_a, data);
             }
             else if (event.data.eventName == 'playerStatusChange') {
-                (_d = (_c = this.events).onPlayerStatusChange) === null || _d === void 0 ? void 0 : _d.call(_c, event.data.data);
+                const data = event.data.data;
+                data.playerStatus = data.playerStatus;
+                (_d = (_c = this.events).onPlayerStatusChange) === null || _d === void 0 ? void 0 : _d.call(_c, data);
             }
             else if (event.data.eventName == 'statusChange') {
-                (_f = (_e = this.events).onStatusChange) === null || _f === void 0 ? void 0 : _f.call(_e, event.data.data);
+                const data = event.data.data;
+                data.playerStatus = data.playerStatus;
+                data.seekStatus = data.seekStatus;
+                (_f = (_e = this.events).onStatusChange) === null || _f === void 0 ? void 0 : _f.call(_e, data);
             }
             else if (event.data.eventName == 'playerMetadataChange') {
-                (_h = (_g = this.events).onPlayerMetadataChange) === null || _h === void 0 ? void 0 : _h.call(_g, event.data.data);
+                const data = event.data.data;
+                (_h = (_g = this.events).onPlayerMetadataChange) === null || _h === void 0 ? void 0 : _h.call(_g, data);
             }
             else if (event.data.eventName == 'seekStatusChange') {
-                (_k = (_j = this.events).onSeekStatusChange) === null || _k === void 0 ? void 0 : _k.call(_j, event.data.data);
+                const data = event.data.data;
+                data.seekStatus = data.seekStatus;
+                (_k = (_j = this.events).onSeekStatusChange) === null || _k === void 0 ? void 0 : _k.call(_j, data);
             }
             else if (event.data.eventName == 'enterProgrammaticFullScreen') {
-                (_m = (_l = this.events).onEnterProgrammaticFullScreen) === null || _m === void 0 ? void 0 : _m.call(_l, event.data.data);
+                (_m = (_l = this.events).onEnterProgrammaticFullScreen) === null || _m === void 0 ? void 0 : _m.call(_l);
             }
             else if (event.data.eventName == 'exitProgrammaticFullScreen') {
-                (_p = (_o = this.events).onExitProgrammaticFullScreen) === null || _p === void 0 ? void 0 : _p.call(_o, event.data.data);
+                (_p = (_o = this.events).onExitProgrammaticFullScreen) === null || _p === void 0 ? void 0 : _p.call(_o);
             }
             else {
                 console.error('[NV-Iframe] 不明なイベントが発生しました');

@@ -46,19 +46,28 @@ namespace NV {
             }
             // メッセージのイベント名によって処理を分岐
             if (event.data.eventName == 'loadComplete') {
-                this.events.onLoadComplete?.(event.data.data);
+                const data = event.data.data as PlayerMessage.LoadComplete;
+                this.events.onLoadComplete?.(data);
             } else if (event.data.eventName == 'playerStatusChange') {
-                this.events.onPlayerStatusChange?.(event.data.data);
+                const data: PlayerMessage.PlayerStatusChange = event.data.data as PlayerMessage.PlayerStatusChange;
+                data.playerStatus = data.playerStatus as PlayerStatus;
+                this.events.onPlayerStatusChange?.(data);
             } else if (event.data.eventName == 'statusChange') {
-                this.events.onStatusChange?.(event.data.data);
+                const data: PlayerMessage.StatusChange = event.data.data as PlayerMessage.StatusChange;
+                data.playerStatus = data.playerStatus as PlayerStatus;
+                data.seekStatus = data.seekStatus as SeekStatus;
+                this.events.onStatusChange?.(data);
             } else if (event.data.eventName == 'playerMetadataChange') {
-                this.events.onPlayerMetadataChange?.(event.data.data);
+                const data: PlayerMessage.PlayerMetadataChange = event.data.data as PlayerMessage.PlayerMetadataChange;
+                this.events.onPlayerMetadataChange?.(data);
             } else if (event.data.eventName == 'seekStatusChange') {
-                this.events.onSeekStatusChange?.(event.data.data);
+                const data = event.data.data as PlayerMessage.SeekStatusChange;
+                data.seekStatus = data.seekStatus as SeekStatus;
+                this.events.onSeekStatusChange?.(data);
             } else if (event.data.eventName == 'enterProgrammaticFullScreen') {
-                this.events.onEnterProgrammaticFullScreen?.(event.data.data);
+                this.events.onEnterProgrammaticFullScreen?.();
             } else if (event.data.eventName == 'exitProgrammaticFullScreen') {
-                this.events.onExitProgrammaticFullScreen?.(event.data.data);
+                this.events.onExitProgrammaticFullScreen?.();
             } else {
                 console.error('[NV-Iframe] 不明なイベントが発生しました');
                 this.events.onError?.(event.data);
@@ -110,6 +119,57 @@ namespace NV {
 
         public incrementViewCount() {
             this._postMessage('incrementViewCount');
+        }
+    }
+
+    namespace PlayerMessage {
+        export interface LoadComplete {
+            videoInfo: {
+                videoId: string,
+                watchId: string,
+                title: string,
+                thumbnailUrl: string,
+                commentCount: number,
+                viewCount: number,
+                mylistCount: number,
+                description: string,
+                lengthInSeconds: number,
+                postedAt: Date,
+            }
+        }
+
+        export interface PlayerStatusChange {
+            playerStatus: PlayerStatus
+        }
+
+        export interface StatusChange {
+            seekStatus: SeekStatus,
+            playerStatus: PlayerStatus
+        }
+
+        export interface PlayerMetadataChange {
+            currentTime: number
+            duration: number
+            isVideoMetaDataLoaded: boolean
+            maximumBuffered: number
+            muted: boolean
+            showComment: boolean
+            volume: number
+        }
+
+        export interface SeekStatusChange {
+            seekStatus: SeekStatus
+        }
+
+        export interface Error {
+            eventName: string,
+            playerId: number,
+            sourceConnectorType: SourceConnectorType,
+            data: {
+                code: string,
+                message: string
+                raw: any
+            }
         }
     }
 
