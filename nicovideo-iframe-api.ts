@@ -45,7 +45,6 @@ namespace NV {
             if (event.data.playerId !== this.playerId.toString()) {
                 return;
             }
-            console.log(event.data);
             // メッセージのイベント名によって処理を分岐
             if (event.data.eventName == 'loadComplete') {
                 this.events.onLoadComplete?.(event.data.data);

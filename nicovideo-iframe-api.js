@@ -43,7 +43,6 @@ var NV;
             if (event.data.playerId !== this.playerId.toString()) {
                 return;
             }
-            console.log(event.data);
             // メッセージのイベント名によって処理を分岐
             if (event.data.eventName == 'loadComplete') {
                 (_b = (_a = this.events).onLoadComplete) === null || _b === void 0 ? void 0 : _b.call(_a, event.data.data);
