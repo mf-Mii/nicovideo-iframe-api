@@ -104,7 +104,7 @@ var player = new NV.Player('<HTML_ID>', {
 #### `seek(time: number)`
 動画を指定した時間にシークします。
 ##### 引数
-- `time`(number): シークする時間(秒)を指定します。
+- `time`(number): シークする時間(ms)を指定します。
 
 #### `volumeChange(volume: number)`
 動画の音量を変更します。
@@ -115,6 +115,94 @@ var player = new NV.Player('<HTML_ID>', {
 コメントの表示を切り替えます。
 ##### 引数
 - `isVisible`(boolean): コメントの表示有無を指定します。
+
+#### `getVideoInfo()`
+動画の情報を取得します。
+##### 戻り値
+- `videoInfo`(NV.VideoInfo): 動画の情報を示すオブジェクトです。
+
+#### `getVideoTime()`
+現在の動画の再生時間を取得します。
+##### 戻り値
+- `time`(number): 動画の再生時間(ms)を示す数値です。
+
+#### `getVideoId()`
+動画のIDを取得します。
+##### 戻り値
+- `videoId`(string): 動画のIDを示す文字列です。
+
+#### `getPlayerId()`
+プレイヤーのIDを取得します。
+##### 戻り値
+- `playerId`(number): プレイヤーのIDを示す数値です。
+
+#### `getVideoTitle()`
+動画のタイトルを取得します。
+##### 戻り値
+- `title`(string): 動画のタイトルを示す文字列です。
+
+#### `getVideoDescription()`
+動画の説明を取得します。
+##### 戻り値
+- `description`(string): 動画の説明を示す文字列です。
+
+#### `getVideoThumbnailUrl()`
+動画のサムネイルのURLを取得します。
+##### 戻り値
+- `thumbnailUrl`(string): 動画のサムネイルのURLを示す文字列です。
+
+#### `getVideoLength()`
+動画の長さを取得します。
+##### 戻り値
+- `length`(number): 動画の長さ(s)を示す数値です。
+
+#### `getVideoViewCount()`
+動画の再生回数を取得します。
+##### 戻り値
+- `viewCount`(number): 動画の再生回数を示す数値です。
+
+#### `getVideoMylistCount()`
+動画のマイリスト登録数を取得します。
+##### 戻り値
+- `mylistCount`(number): 動画のマイリスト登録数を示す数値です。
+
+#### `getVideoCommentCount()`
+動画のコメント数を取得します。
+##### 戻り値
+- `commentCount`(number): 動画のコメント数を示す数値です。
+
+#### `getVideoWatchId()`
+動画の視聴IDを取得します。
+##### 戻り値
+- `watchId`(string): 動画の視聴IDを示す文字列です。
+
+#### `getVideoUrl()`
+動画のURLを取得します。
+##### 戻り値
+- `url`(string): 動画のURLを示す文字列です。
+
+#### `getVolume()`
+動画の音量を取得します。
+##### 戻り値
+- `volume`(number): 動画の音量(0.0~1.0)を示す数値です。
+
+#### `isMuted()`
+音量がミュートされているかどうかを取得します。
+##### 戻り値
+- `isMuted`(boolean): 音量がミュートされているかどうかを示す真偽値です。
+
+#### `isShowComment()`
+コメントが表示されているかどうかを取得します。
+##### 戻り値
+- `isShowComment`(boolean): コメントが表示されているかどうかを示す真偽値です。
+
+#### `getPlayer()`
+動画プレイヤーのHTML要素(Iframe)を取得します。
+##### 戻り値
+- `player`(HTMLIFrameElement): 動画プレイヤーのHTML要素(Iframe)です。
+
+
+
 
 ### イベント
 動画プレイヤーに変化が生じたとき、APIはアプリケーションに通知するためにイベントを発火させます。
