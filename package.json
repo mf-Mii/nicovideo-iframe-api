@@ -7,10 +7,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts:build": "tsc"
   },
-  "keywords": [],
-  "author": "mf_Mii",
-  "license": "ISC",
+  "keywords": [
+    "nicovideo",
+    "iframe",
+    "API",
+    "player"
+  ],
+  "author": "mf_Mii <contact@mfmii.work> (https://github.com/mf-Mii)",
+  "license": "MIT",
   "dependencies": {
     "typescript": "^5.5.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com/mf-Mii/nicovideo-iframe-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mf-Mii/nicovideo-iframe-api/issues"
+  },
+  "homepage": "https://github.com/mf-Mii/nicovideo-iframe-api#readme"
 }
