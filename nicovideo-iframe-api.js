@@ -23,6 +23,7 @@ var NV;
             newIframe.id = 'nicovideoPlayer' + (this.playerId > 1 ? this.playerId : '');
             newIframe.width = `${width}px`;
             newIframe.height = `${height}px`;
+            newIframe.frameBorder = '0';
             newIframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
             (_a = document.getElementById(targetElemId)) === null || _a === void 0 ? void 0 : _a.appendChild(newIframe);
             // iframeがロードされたときに処理を実行する

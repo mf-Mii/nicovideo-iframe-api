@@ -25,6 +25,7 @@ namespace NV {
             newIframe.id = 'nicovideoPlayer' + (this.playerId > 1 ? this.playerId : '');
             newIframe.width = `${width}px`;
             newIframe.height = `${height}px`;
+            newIframe.frameBorder = '0';
             newIframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
             document.getElementById(targetElemId)?.appendChild(newIframe);
             // iframeがロードされたときに処理を実行する
