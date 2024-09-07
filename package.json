@@ -1,0 +1,16 @@
+{
+  "name": "nicovideo-iframe-api",
+  "version": "1.0.0",
+  "description": "The script to control the embedded NicoVideo player.",
+  "main": "nicovideo-iframe-api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts:build": "tsc"
+  },
+  "keywords": [],
+  "author": "mf_Mii",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="videobox">
+</div>
+<button onclick="btnPlay()">Play</button>
+<script>
+    var player;
+    function onNicoVideoIframeAPIReady() {
+        player = new NV.Player('videobox', {
+            width: 640,
+            height: 360,
+            videoId: 'sm34359096',
+            events: {
+                onReady: onReady
+            }
+        });
+        function onReady() {
+            player.play();
+        }
+    }
+    function btnPlay() {
+        player.play();
+    }
+</script>
+<script src="../nicovideo-iframe-api.js"></script>
+</body>
+</html>
