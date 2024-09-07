@@ -3,6 +3,13 @@ var NV;
 (function (NV) {
     class Player {
         constructor(targetElementId, playerOption) {
+            this.videoTimeCache = {
+                cachedVideoTime: 0,
+                cachedTime: 0,
+            };
+            this.volume = 1;
+            this.muted = false;
+            this.showComment = true;
             this.playerId = !!playerOption.playerId ? playerOption.playerId : 1;
             this.events = playerOption.events || {};
             this.createVideoIframe(targetElementId, playerOption.videoId, playerOption.width, playerOption.height);
@@ -45,6 +52,7 @@ var NV;
             // メッセージのイベント名によって処理を分岐
             if (event.data.eventName == 'loadComplete') {
                 const data = event.data.data;
+                this.videoInfo = data;
                 (_b = (_a = this.events).onLoadComplete) === null || _b === void 0 ? void 0 : _b.call(_a, data);
             }
             else if (event.data.eventName == 'playerStatusChange') {
@@ -60,6 +68,13 @@ var NV;
             }
             else if (event.data.eventName == 'playerMetadataChange') {
                 const data = event.data.data;
+                this.videoTimeCache = {
+                    cachedVideoTime: data.currentTime,
+                    cachedTime: Date.now()
+                };
+                this.volume = data.volume;
+                this.muted = data.muted;
+                this.showComment = data.showComment;
                 (_h = (_g = this.events).onPlayerMetadataChange) === null || _h === void 0 ? void 0 : _h.call(_g, data);
             }
             else if (event.data.eventName == 'seekStatusChange') {
@@ -116,6 +131,76 @@ var NV;
         }
         incrementViewCount() {
             this._postMessage('incrementViewCount');
+        }
+        getVideoInfo() {
+            return this.videoInfo;
+        }
+        /**
+         * プレイヤーの現在の再生時間を取得する
+         * @returns {number} 現在の再生時間(ms)
+         */
+        getVideoTime() {
+            const currentTime = this.videoTimeCache.cachedVideoTime;
+            const cachedTime = this.videoTimeCache.cachedTime;
+            return currentTime + (Date.now() - cachedTime);
+        }
+        getVideoId() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.videoId;
+        }
+        getPlayerId() {
+            return this.playerId;
+        }
+        getVideoTitle() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.title;
+        }
+        getVideoDescription() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.description;
+        }
+        getVideoThumbnailUrl() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.thumbnailUrl;
+        }
+        getVideoLength() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.lengthInSeconds;
+        }
+        getVideoPostedAt() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.postedAt;
+        }
+        getVideoViewCount() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.viewCount;
+        }
+        getVideoMylistCount() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.mylistCount;
+        }
+        getVideoCommentCount() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.commentCount;
+        }
+        getVideoWatchId() {
+            var _a;
+            return (_a = this.videoInfo) === null || _a === void 0 ? void 0 : _a.videoInfo.watchId;
+        }
+        getVideoUrl() {
+            return `https://www.nicovideo.jp/watch/${this.getVideoWatchId()}`;
+        }
+        getVolume() {
+            return this.volume;
+        }
+        isMuted() {
+            return this.muted;
+        }
+        isShowComment() {
+            return this.showComment;
+        }
+        getPlayer() {
+            return document.getElementById('nicovideoPlayer' + (this.playerId > 1 ? this.playerId.toString() : ''));
         }
     }
     NV.Player = Player;

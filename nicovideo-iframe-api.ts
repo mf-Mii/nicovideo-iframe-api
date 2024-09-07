@@ -3,6 +3,14 @@ namespace NV {
     export class Player {
         private readonly playerId: number;
         readonly events: PlayerOption.Events;
+        private videoInfo: PlayerMessage.LoadComplete | undefined;
+        private videoTimeCache = {
+            cachedVideoTime: 0,
+            cachedTime: 0,
+        }
+        private volume : number = 1;
+        private muted : boolean = false;
+        private showComment : boolean = true;
         constructor(targetElementId: string, playerOption: PlayerOption.Option) {
             this.playerId = !!playerOption.playerId ? playerOption.playerId : 1;
             this.events = playerOption.events || {} as PlayerOption.Events;
@@ -47,6 +55,7 @@ namespace NV {
             // メッセージのイベント名によって処理を分岐
             if (event.data.eventName == 'loadComplete') {
                 const data = event.data.data as PlayerMessage.LoadComplete;
+                this.videoInfo = data;
                 this.events.onLoadComplete?.(data);
             } else if (event.data.eventName == 'playerStatusChange') {
                 const data: PlayerMessage.PlayerStatusChange = event.data.data as PlayerMessage.PlayerStatusChange;
@@ -59,6 +68,13 @@ namespace NV {
                 this.events.onStatusChange?.(data);
             } else if (event.data.eventName == 'playerMetadataChange') {
                 const data: PlayerMessage.PlayerMetadataChange = event.data.data as PlayerMessage.PlayerMetadataChange;
+                this.videoTimeCache = {
+                    cachedVideoTime: data.currentTime,
+                    cachedTime: Date.now()
+                };
+                this.volume = data.volume;
+                this.muted = data.muted;
+                this.showComment = data.showComment;
                 this.events.onPlayerMetadataChange?.(data);
             } else if (event.data.eventName == 'seekStatusChange') {
                 const data = event.data.data as PlayerMessage.SeekStatusChange;
@@ -120,6 +136,86 @@ namespace NV {
         public incrementViewCount() {
             this._postMessage('incrementViewCount');
         }
+
+        public getVideoInfo() {
+            return this.videoInfo;
+        }
+
+        /**
+         * プレイヤーの現在の再生時間を取得する
+         * @returns {number} 現在の再生時間(ms)
+         */
+        public getVideoTime() {
+            const currentTime = this.videoTimeCache.cachedVideoTime;
+            const cachedTime = this.videoTimeCache.cachedTime;
+            return currentTime + (Date.now() - cachedTime);
+        }
+
+        public getVideoId() {
+            return this.videoInfo?.videoInfo.videoId;
+        }
+
+        public getPlayerId() {
+            return this.playerId;
+        }
+
+        public getVideoTitle() {
+            return this.videoInfo?.videoInfo.title;
+        }
+
+        public getVideoDescription() {
+            return this.videoInfo?.videoInfo.description;
+        }
+
+        public getVideoThumbnailUrl() : string | undefined {
+            return this.videoInfo?.videoInfo.thumbnailUrl;
+        }
+
+        public getVideoLength(): number | undefined {
+            return this.videoInfo?.videoInfo.lengthInSeconds;
+        }
+
+        public getVideoPostedAt() : Date | undefined {
+            return this.videoInfo?.videoInfo.postedAt;
+        }
+
+        public getVideoViewCount(): number | undefined {
+            return this.videoInfo?.videoInfo.viewCount;
+        }
+
+        public getVideoMylistCount() : number | undefined {
+            return this.videoInfo?.videoInfo.mylistCount;
+        }
+
+        public getVideoCommentCount() : number | undefined {
+            return this.videoInfo?.videoInfo.commentCount;
+        }
+
+        public getVideoWatchId() : string | undefined {
+            return this.videoInfo?.videoInfo.watchId;
+        }
+
+        public getVideoUrl() : string {
+            return `https://www.nicovideo.jp/watch/${this.getVideoWatchId()}`;
+        }
+
+        public getVolume() : number {
+            return this.volume;
+        }
+
+        public isMuted() : boolean {
+            return this.muted;
+        }
+
+        public isShowComment() : boolean {
+            return this.showComment;
+        }
+
+        public getPlayer() : HTMLIFrameElement {
+            return document.getElementById('nicovideoPlayer' + (this.playerId > 1 ? this.playerId.toString() : '')) as HTMLIFrameElement;
+        }
+
+
     }
 
     namespace PlayerMessage {
