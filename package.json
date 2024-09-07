@@ -4,7 +4,6 @@
   "description": "The script to control the embedded NicoVideo player.",
   "main": "nicovideo-iframe-api.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "ts:build": "tsc"
   },
   "keywords": [
