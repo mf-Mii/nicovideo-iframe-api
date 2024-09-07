@@ -255,7 +255,9 @@ var player = new NV.Player('<HTML_ID>', {
 
 #### `NV.SeekStatus`
 動画のシーク状態を示す列挙型です。
-- `NV.SeekStatus.NOT_SEEKING`: シークしていない
+- `NV.SeekStatus.NOT_SEEK`: シークしていない
+- `NV.SeekStatus.SEEK_DRAGGING`: シーク中(ドラッグ中)
+- `NV.SeekStatus.SEEKING`: シーク中
 
 
 ## 注意事項
