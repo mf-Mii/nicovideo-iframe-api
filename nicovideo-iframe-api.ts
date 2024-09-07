@@ -133,11 +133,16 @@ namespace NV {
         }
     }
 
-    export enum PlayerState {
+    export enum PlayerStatus {
         LOADING = 1,
         PLAYING = 2,
         PAUSE = 3,
         END = 4
+    }
+
+    export enum SeekStatus {
+        NOT_SEEK = 0,
+        SEEKING = 1
     }
 
     export enum SourceConnectorType {

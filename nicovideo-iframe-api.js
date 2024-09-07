@@ -17,7 +17,6 @@ var NV;
                 console.error('[NV-Iframe] 指定されたIDの要素が存在しません');
                 return;
             }
-            console.log('createVideoIframe called');
             const embedUrl = `https://embed.nicovideo.jp/watch/${videoId}?w=${width}px&h=${height}&jsapi=1&playerId=${this.playerId}`;
             const newIframe = document.createElement('iframe');
             newIframe.src = embedUrl;
@@ -31,7 +30,6 @@ var NV;
             // iframeがロードされたときに処理を実行する
             newIframe.onload = () => {
                 var _a, _b;
-                console.log('Iframe loaded');
                 (_b = (_a = this.events).onReady) === null || _b === void 0 ? void 0 : _b.call(_a);
             };
         }
@@ -70,8 +68,6 @@ var NV;
             }
         }
         _postMessage(eventName, data) {
-            var _a;
-            // console.log(`postMessage called with eventName: ${eventName}`);
             const iframe = document.getElementById('nicovideoPlayer' + (this.playerId > 1 ? this.playerId.toString() : ''));
             if (!iframe) {
                 console.error('[NV-Iframe] プレイヤーが存在しません');
@@ -85,12 +81,8 @@ var NV;
             if (!!data) {
                 messageData = Object.assign(Object.assign({}, messageData), { data: data });
             }
-            console.log('_postMessage', messageData);
-            console.log((_a = iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage);
             if (iframe.contentWindow) {
-                //iframe.contentWindow.postMessage(messageData, 'https://embed.nicovideo.jp');
-                iframe.contentWindow.postMessage(messageData, '*');
-                console.log('postMessage called');
+                iframe.contentWindow.postMessage(messageData, 'https://embed.nicovideo.jp');
             }
             else {
                 console.error('[NV-Iframe] iframe.contentWindowが存在しません');
@@ -100,10 +92,7 @@ var NV;
             this._postMessage('seek', { time: time });
         }
         play() {
-            // console.log('play function called');
-            // console.log(this._postMessage)
             this._postMessage('play');
-            // console.log('_postMessage called in play');
         }
         pause() {
             this._postMessage('pause');
@@ -119,13 +108,18 @@ var NV;
         }
     }
     NV.Player = Player;
-    let PlayerState;
-    (function (PlayerState) {
-        PlayerState[PlayerState["LOADING"] = 1] = "LOADING";
-        PlayerState[PlayerState["PLAYING"] = 2] = "PLAYING";
-        PlayerState[PlayerState["PAUSE"] = 3] = "PAUSE";
-        PlayerState[PlayerState["END"] = 4] = "END";
-    })(PlayerState = NV.PlayerState || (NV.PlayerState = {}));
+    let PlayerStatus;
+    (function (PlayerStatus) {
+        PlayerStatus[PlayerStatus["LOADING"] = 1] = "LOADING";
+        PlayerStatus[PlayerStatus["PLAYING"] = 2] = "PLAYING";
+        PlayerStatus[PlayerStatus["PAUSE"] = 3] = "PAUSE";
+        PlayerStatus[PlayerStatus["END"] = 4] = "END";
+    })(PlayerStatus = NV.PlayerStatus || (NV.PlayerStatus = {}));
+    let SeekStatus;
+    (function (SeekStatus) {
+        SeekStatus[SeekStatus["NOT_SEEK"] = 0] = "NOT_SEEK";
+        SeekStatus[SeekStatus["SEEKING"] = 1] = "SEEKING";
+    })(SeekStatus = NV.SeekStatus || (NV.SeekStatus = {}));
     let SourceConnectorType;
     (function (SourceConnectorType) {
         SourceConnectorType[SourceConnectorType["NICOVIDEO"] = 0] = "NICOVIDEO";
