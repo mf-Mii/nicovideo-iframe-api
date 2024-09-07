@@ -109,7 +109,7 @@ var player = new NV.Player('<HTML_ID>', {
 #### `volumeChange(volume: number)`
 動画の音量を変更します。
 ##### 引数
-- `volume`(number): 動画の音量(0~100)を指定します。
+- `volume`(number): 動画の音量(0.0~1.0)を指定します。
 
 #### `commentVisibilityChange(isVisible: boolean)`
 コメントの表示を切り替えます。
