@@ -217,21 +217,21 @@ namespace NV {
 
 
     }
-
+    export interface VideoInfo {
+        videoId: string,
+        watchId: string,
+        title: string,
+        thumbnailUrl: string,
+        commentCount: number,
+        viewCount: number,
+        mylistCount: number,
+        description: string,
+        lengthInSeconds: number,
+        postedAt: Date,
+    }
     namespace PlayerMessage {
         export interface LoadComplete {
-            videoInfo: {
-                videoId: string,
-                watchId: string,
-                title: string,
-                thumbnailUrl: string,
-                commentCount: number,
-                viewCount: number,
-                mylistCount: number,
-                description: string,
-                lengthInSeconds: number,
-                postedAt: Date,
-            }
+            videoInfo: VideoInfo
         }
 
         export interface PlayerStatusChange {
